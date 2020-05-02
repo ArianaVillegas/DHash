@@ -13,9 +13,9 @@ class BTree {
         typedef typename vector<ID>::iterator keyIte;
         typedef typename vector<Node<ID>*>::iterator childIte;
 
-        Node<T>* root;
+        Node<ID>* root;
         unsigned int degree;
-
+        /* ORIGINAL */ 
         bool find(ID key, Node<ID>* &node, int &i){
             while(node){
                 for(i=0; i<node->keys.size(); ++i) {
@@ -28,6 +28,21 @@ class BTree {
             return false;
         }
 
+
+        /* Copia */
+        bool find(ID key, string nodeDir, int &i){
+            Nodo node = read(nodeDir); /*TO DO*/
+            while(!node->isLeaf){
+                for(i=0; i<node->keys.size(); ++i) {
+                    if(key==node->keys[i]) return true;
+                    else if(key<node->keys[i]) break;
+                }
+                node = read(node->childs[i]); /*TO DO X2*/
+            }
+            return false;
+        }
+
+        
         void insKeys(Node<ID>* &node1, Node<ID>* &node2, int pos){
             node1->keys.insert(node1->keys.begin(),node2->keys.begin()+pos+1,node2->keys.end());
             node2->keys.erase(node2->keys.begin()+pos,node2->keys.end());
@@ -49,6 +64,26 @@ class BTree {
             node = newNode;
         }        
 
+        /* ORIGINAL */
+        bool insert(ID &key, Node<ID>* &node){
+            int i;
+            ID actual;
+            for(i=0; i<node->keys.size(); ++i)
+                if(key<=node->keys[i]) break;
+            if(!node->isLeaf){
+                auto temp = node->childs[i];
+                if(insert(key,temp)){
+                    node->keys.insert(node->keys.begin()+i,key);
+                    node->childs.insert(node->childs.begin()+i+1,temp);
+                }
+            } else node->keys.insert(node->keys.begin()+i,key);
+            if(node->keys.size()==degree){
+                split(key,node);
+                return true;
+            }
+            return false;
+        }
+        /* COPY */ 
         bool insert(ID &key, Node<ID>* &node){
             int i;
             ID actual;
