@@ -4,6 +4,7 @@
 #include "Registro.h"
 #include <string>
 #include <vector>
+#include <fstream>
 using namespace std; 
 /*
 
@@ -42,9 +43,28 @@ class Nodo {
     bool isLeaf;
 
     Nodo ( bool isLeaf ) : isLeaf(isLeaf) {};
+    Nodo (string direccion,int pos ){
+        fstream pagina;
+        pagina.seekg(pos,ios::beg);
+        
 
+        pagina.open(direccion);
+
+    }
+    
     template<class>
     friend class BTree; 
 };
+
+template<typename ID>
+void cargar_nodo(Nodo<ID> &node,string direccion, int posicion){
+    fstream pagina;
+    pagina.open("nodos.txt");
+    pagina.seekg(posicion,ios::beg);
+    int tamano;
+    pagina>>tamano;
+    pagina.read((char *)&node,tamano);
+}
+
 
 #endif 
