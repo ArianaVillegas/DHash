@@ -4,7 +4,7 @@
 #include <algorithm>
 #include <vector>
 #include "Nodos.h"
-
+#include "Registro.h"
 using namespace std;
 
 template <typename ID>
@@ -76,7 +76,9 @@ class BTree {
                     node->keys.insert(node->keys.begin()+i,key);
                     node->childs.insert(node->childs.begin()+i+1,temp);
                 }
-            } else node->keys.insert(node->keys.begin()+i,key);
+            } 
+            //Revisar si es que el nodo tiene ya un tamaño maximo antes de insertar el nuevo registro 
+            else node->keys.insert(node->keys.begin()+i,key);
             if(node->keys.size()==degree){
                 split(key,node);
                 return true;
@@ -84,24 +86,90 @@ class BTree {
             return false;
         }
         /* COPY */ 
-        bool insert(ID &key, Node<ID>* &node){
-            int i;
-            ID actual;
-            for(i=0; i<node->keys.size(); ++i)
-                if(key<=node->keys[i]) break;
-            if(!node->isLeaf){
-                auto temp = node->childs[i];
-                if(insert(key,temp)){
-                    node->keys.insert(node->keys.begin()+i,key);
-                    node->childs.insert(node->childs.begin()+i+1,temp);
+        bool insert(Record record, ID &key, string node){
+            /* Cargamos nodo */ 
+            Nodo <ID> nodo;
+            cagar_nodo(nodo, stoi(node));
+            
+            /* Buscamos la posicion a seguir en los nodos */
+            int i;  
+            for (i = 0; i < nodo.size; i++)
+                if(key<=node.keys[i]) break;
+
+            /* Preguntar si es hoja */
+            if(!node.isLeaf){
+                
+            }else{
+                Pagina page = loadPage(node.childs[i]); /* TO DO */
+                if(page.size==MAX_RECORDS){
+                    Pagina newpage;
+                    page.All_registers.push_back(record);
+                    page.sort();    /* TO DO */
+                    newpage.All_registers.insert(page.All_registers.begin() + MAX_RECORDS/2, page.All_registers.end());
+                    page.All_registers.remove(page.All_registers.begin() + MAX_RECORDS/2, page.All_registers.end());
+                    
+                    if(node.size == GRADO){
+                        // Falta revisar
+                        /*Node newnode;
+                        split(newnode, node);  TO DO (actualizar keys y size) 
+                        if(key < newnode.keys[0]){
+                            node.keys[node.size] = key;
+                            sort(node.keys.begin(),node.keys.end());
+                            node.childs[node.size++] = newpage.name;
+                        }else{
+                            newnode.keys[newnode.size] = key;
+                            sort(newnode.keys.begin(),newnode.keys.end());
+                            newnode.childs[newnode.size++] = newpage.name;
+                        }*/
+                    }else{
+                        for(int pos = node.size; pos>i; pos--){
+                            node.keys[pos] = node.keys[pos-1];
+                            node.childs[pos] = node.childs[pos-1];
+                        }
+                        node.keys[i] = newpage.All_registers[0].key;
+                        node.childs[i] = newpage.name; 
+                        node.size++;
+                    }
+                    page.write();
+                    newpage.write();
+                }else{
+                    page.All_registers.push_back(record);
+                    page.sort();    /* TO DO */
                 }
-            } else node->keys.insert(node->keys.begin()+i,key);
-            if(node->keys.size()==degree){
-                split(key,node);
-                return true;
+                page.write(); /* TO DO */
             }
-            return false;
         }
+
+    
+
+        /* algoritmos a insertar un registro en pagina 
+        si no esta lleno, se pone en heap
+        si esta lleno, se ordena y se parte en 2 paginas, mitad ordenado en la pagina original y mitad ordenado en la siguiente pagina
+        y se crea un mini nodo 
+        En el caso de los nodos hoja, la cantidad de childs es lo mismo que la cantidad de keys 
+
+        
+        */
+        /*pasos
+
+
+
+        1- Se recibe el string direccion del root
+        2- Se carga el nodo
+        3- Ubicar donde se tiene que insertar
+        4- preguntar si es hoja
+        5- SI NO ES HOJA: 
+        5.1- Insertar con el string de n' child, y el key 
+        6- SI ES HOJA:
+        6.1- Cargar pagina
+        6.2 PREGUNTAR POR EL SIZE DEL PAGE
+        6.3- Si es que la pagina AUN NO SE LLENA, se inserta en esa pagina
+        
+
+
+
+
+        */
 
         void findMaxLeft(Node<ID>* &node){
             while(!node->isLeaf)
@@ -146,6 +214,21 @@ class BTree {
             root = temp;
             return true;
         }
+
+        /*copia*/
+        bool insert(Registro registro) {
+            auto temp = root;
+            if(insert(k,temp)){
+                Node<T>* newNode = new Node<T>(degree,false);
+                newNode->keys.push_back(k);
+                newNode->childs.push_back(root);
+                newNode->childs.push_back(temp);
+                temp = newNode;
+            }
+            root = temp;
+            return true;
+        }
+        
 };
 
 #endif

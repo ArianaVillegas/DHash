@@ -1,6 +1,6 @@
 #ifndef NODO_H
 #define NODO_H 
-#define GRADO 3
+#define GRADO 3 //TAMANO DE HIJOS DE UN NODO
 #include "Registro.h"
 #include <string>
 #include <vector>
@@ -38,11 +38,11 @@ public:
 template< typename ID> 
 class Nodo {
     public:
-    vector <string> childs; //tamaño igual a GRADO
-    vector<ID> keys; //tamano = Grado-1
+    string childs[GRADO]; //tamaño igual a GRADO
+    ID keys[GRADO-1]; //tamano = Grado-1
     bool isLeaf;
-
-    Nodo ( bool isLeaf ) : isLeaf(isLeaf) {};
+    int size;           // falta poner en el constructor 
+    Nodo ( bool isLeaf ) : isLeaf(isLeaf),size(0) {};
     Nodo (string direccion,int pos ){
         fstream pagina;
         pagina.seekg(pos,ios::beg);
@@ -57,13 +57,21 @@ class Nodo {
 };
 
 template<typename ID>
-void cargar_nodo(Nodo<ID> &node,string direccion, int posicion){
+void cargar_nodo(Nodo<ID> &node,int posicion){
     fstream pagina;
     pagina.open("nodos.txt");
     pagina.seekg(posicion,ios::beg);
     int tamano;
     pagina>>tamano;
     pagina.read((char *)&node,tamano);
+}
+
+template<typename ID>
+void escribir_nodo(Nodo<ID> &node){
+    fstream pagina;
+    pagina.open("nodos.txt",ios::out | ios::app);
+    pagina.write((char*) &node,sizeof(node) );
+    
 }
 
 
