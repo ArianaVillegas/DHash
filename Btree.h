@@ -12,9 +12,9 @@ class BTree {
     private:
         typedef typename vector<ID>::iterator keyIte;
         typedef typename vector<Node<ID>*>::iterator childIte;
-
-        Node<ID>* root;
+        string pos_root;
         unsigned int degree;
+
         /* ORIGINAL */ 
         bool find(ID key, Node<ID>* &node, int &i){
             while(node){
@@ -32,12 +32,12 @@ class BTree {
         /* Copia */
         bool find(ID key, string nodeDir, int &i){
             Nodo node = read(nodeDir); /*TO DO*/
-            while(!node->isLeaf){
-                for(i=0; i<node->keys.size(); ++i) {
-                    if(key==node->keys[i]) return true;
-                    else if(key<node->keys[i]) break;
+            while(!node.isLeaf){
+                for(i=0; i<node.keys.size(); ++i) {
+                    if(key==node.keys[i]) return true;
+                    else if(key<node.keys[i]) break;
                 }
-                node = read(node->childs[i]); /*TO DO X2*/
+                node = read(node.childs[i]); /*TO DO X2*/
             }
             return false;
         }
@@ -45,7 +45,7 @@ class BTree {
         
         void insKeys(Node<ID>* &node1, Node<ID>* &node2, int pos){
             node1->keys.insert(node1->keys.begin(),node2->keys.begin()+pos+1,node2->keys.end());
-            node2->keys.erase(node2->keys.begin()+pos,node2->keys.end());
+            node2->keys.erase(node2->keys.begin()pos,node2->keys.end());
         }
 
         void insChilds(Node<ID>* &node1, Node<ID>* &node2, int pos){
@@ -86,8 +86,8 @@ class BTree {
             return false;
         }
         /* COPY */ 
-        bool insert(Record record, ID &key, string node){
-            /* Cargamos nodo */ 
+        bool insert(Record record, ID &key, string &node){
+            /* Cargamos nodo */     
             Nodo <ID> nodo;
             cagar_nodo(nodo, stoi(node));
             
@@ -98,10 +98,13 @@ class BTree {
 
             /* Preguntar si es hoja */
             if(!node.isLeaf){
-                
+                if(insert(record,record.codigo,nodo.childs[i])){
+                    
+                }
             }else{
                 Pagina page = loadPage(node.childs[i]); /* TO DO */
                 if(page.size==MAX_RECORDS){
+                    /*  Insertamos en el registro en la pagina y lo separamos en dos  */
                     Pagina newpage;
                     page.All_registers.push_back(record);
                     page.sort();    /* TO DO */
@@ -110,18 +113,29 @@ class BTree {
                     
                     if(node.size == GRADO){
                         // Falta revisar
-                        /*Node newnode;
-                        split(newnode, node);  TO DO (actualizar keys y size) 
+                        Node newnode;
+                        split(newnode, node);  // TO DO (actualizar keys y size) 
                         if(key < newnode.keys[0]){
-                            node.keys[node.size] = key;
-                            sort(node.keys.begin(),node.keys.end());
-                            node.childs[node.size++] = newpage.name;
+                            /* Optimizar (funcion ) */
+                            for(int pos = node.size; pos>i; pos--){
+                                node.keys[pos] = node.keys[pos-1];
+                                node.childs[pos] = node.childs[pos-1];
+                            }
+                            node.keys[i] = newpage.All_registers[0].key;
+                            node.childs[i] = newpage.name; 
+                            node.size++;
                         }else{
-                            newnode.keys[newnode.size] = key;
-                            sort(newnode.keys.begin(),newnode.keys.end());
-                            newnode.childs[newnode.size++] = newpage.name;
-                        }*/
+                            for(int pos = newnode.size; pos>i; pos--){
+                                newnode.keys[pos] = newnode.keys[pos-1];
+                                newnode.childs[pos] = newnode.childs[pos-1];
+                            }
+                            newnode.keys[i] = newpage.All_registers[0].key;
+                            newnode.childs[i] = newpage.name; 
+                            newnode.size++;
+                        }
+
                     }else{
+                        /* Hace que los keys apuntan a su respectiva pagina */ 
                         for(int pos = node.size; pos>i; pos--){
                             node.keys[pos] = node.keys[pos-1];
                             node.childs[pos] = node.childs[pos-1];
@@ -193,8 +207,13 @@ class BTree {
         }
 
     public:
-        BTree(unsigned int degree) : degree(degree), root(nullptr) {
-            root = new Node<ID>(degree);
+        BTree(string index_fileName) {
+            fstream file;
+            file.open(index_fileName, ios::in);
+            if(file.is_open())
+                pos_root = "0";
+            else
+                pos_root = "";
         }
 
         bool search(ID k) { 
@@ -217,14 +236,16 @@ class BTree {
 
         /*copia*/
         bool insert(Registro registro) {
-            auto temp = root;
-            if(insert(k,temp)){
+            auto temp =  read(pos_root);
+            if(insert(registro,registro.codigo,temp)){
                 Node<T>* newNode = new Node<T>(degree,false);
+
                 newNode->keys.push_back(k);
                 newNode->childs.push_back(root);
                 newNode->childs.push_back(temp);
                 temp = newNode;
             }
+
             root = temp;
             return true;
         }
