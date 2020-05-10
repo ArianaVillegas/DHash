@@ -7,18 +7,19 @@ using namespace std;
 
 struct Registro
 {
-    string  codigo;
-	string  Nombre ;
-	string  Apellidos ;
-    string Carrera;
-    Registro(){
-        codigo.resize(5);
-        Nombre.resize(12); 
-        Apellidos.resize(20);
-        Carrera.resize(20);
-    }
+    char codigo[5];
+	char Nombre[12] ;
+	char Apellidos[20] ;
+    char Carrera[20];
+    /*Registro(){
+        codigo.resize(5,32);
+        Nombre.resize(12,32); 
+        Apellidos.resize(20,32);
+        Carrera.resize(20,32);
+         
+    }*/
     void show(){
-        cout<<"codigo: "<<codigo<<" nombre: "<<" Nombre: "<<Nombre<<" Carrera "<<Carrera<<endl;
+        cout<<"codigo: "<<codigo<<" Nombre: "<<Nombre<<" Carrera : "<<Carrera<<endl;
     }    
 };
 
