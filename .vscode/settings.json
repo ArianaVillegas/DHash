@@ -1,7 +1,8 @@
 {
     "files.associations": {
-        "iosfwd": "cpp",
-        "random": "cpp",
-        "*.tcc": "cpp"
-    }
-}
+        "vector": "cpp",
+        "*.tcc": "cpp",
+        "iostream": "cpp"
+    },
+    "extensions.ignoreRecommendations": true
+}   
