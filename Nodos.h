@@ -59,6 +59,7 @@ class Nodo {
     ID keys[GRADO-1]; //tamano = Grado-1
     bool isLeaf;
     int size;           // falta poner en el constructor 
+    string position;
     Nodo ( bool isLeaf ) : isLeaf(isLeaf),size(0) {};
     void print_node(){
         for(int i=0;i<size;i++){
