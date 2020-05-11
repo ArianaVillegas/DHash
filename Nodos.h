@@ -46,7 +46,6 @@ struct STRING{
     void print(){
         cout<<instance<<" ";
     }
-    
 };
 
 
@@ -55,8 +54,8 @@ struct STRING{
 template< typename ID> 
 class Nodo {
     public:
-    STRING childs[GRADO]; //tamaño igual a GRADO
-    ID keys[GRADO-1]; //tamano = Grado-1
+    STRING childs[GRADO+1]; //tamaño igual a GRADO
+    ID keys[GRADO]; //tamano = Grado-1
     bool isLeaf;
     int size;           // falta poner en el constructor 
     string position;

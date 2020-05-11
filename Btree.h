@@ -53,6 +53,7 @@ class BTree {
             node2->childs.erase(node2->childs.begin()+pos+1,node2->childs.end());
         }
 
+        /* Original */
         void split(T &key, Node<ID>* &node){
             auto pos = degree/2;
             key = node->keys[pos];
@@ -62,7 +63,41 @@ class BTree {
                 insChilds(newNode,node,pos);
             }
             node = newNode;
-        }        
+        } 
+
+        /* Split leaf */
+        void splitLeaf(ID &key, Node<ID> &node){
+            auto pos = GRADO/2;
+            key = node.keys[pos];
+            Node<ID> newnode = new Node<ID>(true);
+            newnode.keys.insert(newnode.keys.begin(), node.keys.begin()+pos, node.keys.end());
+            node.keys.erase(node.keys.begin()+pos, node.keys.end());
+            if(!node.isLeaf){
+                newnode.childs.insert(newnode.childs.begin(), node.childs.begin()+pos, node.childs.end());
+                node.childs.erase(node.childs.begin()+pos, node.childs.end());
+                node.childs[GRADO-1] = newnode.childs[0];
+            }
+            node.write();
+            newnode.write();
+            node = newnode;
+        }       
+
+        /* Split */
+        void split(ID &key, Node<ID> &node){
+            auto pos = GRADO/2;
+            key = node.keys[pos];
+            Node<ID> newnode = new Node<ID>(false);
+            newnode.keys.insert(newnode.keys.begin(), node.keys.begin()+pos, node.keys.end());
+            node.keys.erase(node.keys.begin()+pos, node.keys.end());
+            if(!node.isLeaf){
+                newnode.children.insert(newnode.children.begin(), node.children.begin()+pos+1, node.children.end());
+                node.children.erase(node.children.begin()+pos+1, node.children.end());
+            }
+            node.write();
+            newnode.write();
+            node = newnode;
+        }       
+
 
         /* ORIGINAL */
         bool insert(ID &key, Node<ID>* &node){
@@ -85,21 +120,27 @@ class BTree {
             }
             return false;
         }
+
         /* COPY */ 
-        bool insert(Record record, ID &key, string &node){
-            /* Cargamos nodo */     
-            Nodo <ID> nodo;
-            cagar_nodo(nodo, stoi(node));
-            
+        bool insert(Record record, ID &key, Nodo &nodo){
             /* Buscamos la posicion a seguir en los nodos */
             int i;  
             for (i = 0; i < nodo.size; i++)
-                if(key<=node.keys[i]) break;
+                if(key<=nodo.keys[i]) break;
 
             /* Preguntar si es hoja */
-            if(!node.isLeaf){
-                if(insert(record,record.codigo,nodo.childs[i])){
-                    
+            if(!nodo.isLeaf){
+                string tnode = nodo.childs[i];
+                Nodo <ID> tnodo;
+                cagar_nodo(tnodo, stoi(tnode));
+                if(insert(record, key, tnodo)){
+                    for(int pos = tnodo.size; pos>i; pos--){
+                        tnodo.keys[pos] = tnodo.keys[pos-1];
+                        tnodo.childs[pos+1] = tnodo.childs[pos];
+                    }
+                    tnodo.keys[i] = newpage.All_registers[0].key;
+                    tnodo.childs[i+1] = newpage.name; 
+                    tnodo.size++;
                 }
             }else{
                 Pagina page = loadPage(node.childs[i]); /* TO DO */
@@ -111,39 +152,17 @@ class BTree {
                     newpage.All_registers.insert(page.All_registers.begin() + MAX_RECORDS/2, page.All_registers.end());
                     page.All_registers.remove(page.All_registers.begin() + MAX_RECORDS/2, page.All_registers.end());
                     
-                    if(node.size == GRADO){
-                        // Falta revisar
-                        Node newnode;
-                        split(newnode, node);  // TO DO (actualizar keys y size) 
-                        if(key < newnode.keys[0]){
-                            /* Optimizar (funcion ) */
-                            for(int pos = node.size; pos>i; pos--){
-                                node.keys[pos] = node.keys[pos-1];
-                                node.childs[pos] = node.childs[pos-1];
-                            }
-                            node.keys[i] = newpage.All_registers[0].key;
-                            node.childs[i] = newpage.name; 
-                            node.size++;
-                        }else{
-                            for(int pos = newnode.size; pos>i; pos--){
-                                newnode.keys[pos] = newnode.keys[pos-1];
-                                newnode.childs[pos] = newnode.childs[pos-1];
-                            }
-                            newnode.keys[i] = newpage.All_registers[0].key;
-                            newnode.childs[i] = newpage.name; 
-                            newnode.size++;
-                        }
-
-                    }else{
-                        /* Hace que los keys apuntan a su respectiva pagina */ 
-                        for(int pos = node.size; pos>i; pos--){
-                            node.keys[pos] = node.keys[pos-1];
-                            node.childs[pos] = node.childs[pos-1];
-                        }
-                        node.keys[i] = newpage.All_registers[0].key;
-                        node.childs[i] = newpage.name; 
-                        node.size++;
+                    /* Hace que los keys apuntan a su respectiva pagina */ 
+                    for(int pos = nodo.size; pos>i; pos--){
+                        nodo.keys[pos] = nodo.keys[pos-1];
+                        nodo.childs[pos] = nodo.childs[pos-1];
                     }
+                    nodo.keys[i] = newpage.All_registers[0].key;
+                    nodo.childs[i] = newpage.name; 
+                    nodo.size++;
+
+                    node.write();
+                    
                     page.write();
                     newpage.write();
                 }else{
@@ -152,9 +171,14 @@ class BTree {
                 }
                 page.write(); /* TO DO */
             }
-        }
 
-    
+            if(nodo.keys.size == GRADO){
+                if(nodo.isLeaf) splitLeft(key,nodo);
+                else split(key,nodo);
+                return true;
+            }
+            return false;
+        }
 
         /* algoritmos a insertar un registro en pagina 
         si no esta lleno, se pone en heap
