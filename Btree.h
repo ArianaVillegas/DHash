@@ -173,7 +173,7 @@ class BTree {
             }
 
             if(nodo.keys.size == GRADO){
-                if(nodo.isLeaf) splitLeft(key,nodo);
+                if(nodo.isLeaf) splitLeaf(key,nodo);
                 else split(key,nodo);
                 return true;
             }
@@ -202,10 +202,6 @@ class BTree {
         6.1- Cargar pagina
         6.2 PREGUNTAR POR EL SIZE DEL PAGE
         6.3- Si es que la pagina AUN NO SE LLENA, se inserta en esa pagina
-        
-
-
-
 
         */
 
@@ -260,7 +256,7 @@ class BTree {
 
         /*copia*/
         bool insert(Registro registro) {
-            auto temp =  read(pos_root);
+            auto temp =  read(pos_root);         
             if(insert(registro,registro.codigo,temp)){
                 Node<T>* newNode = new Node<T>(degree,false);
 
@@ -269,8 +265,7 @@ class BTree {
                 newNode->childs.push_back(temp);
                 temp = newNode;
             }
-
-            root = temp;
+            pos_root = temp.position;
             return true;
         }
         
