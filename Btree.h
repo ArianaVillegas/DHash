@@ -4,8 +4,9 @@
 #include <algorithm>
 #include <vector>
 #include "Nodos.h"
-#include "Registro.h"
 #include "pagina.h"
+#include <stdio.h>
+
 using namespace std;
 
 template <typename ID>
@@ -17,18 +18,18 @@ class BTree {
         unsigned int degree;
 
         /* ORIGINAL */ 
-        bool find(ID key, Node<ID>* &node, int &i){
+        /*bool find(ID key, Node<ID>* &node, int &i){
             while(node){
                 for(i=0; i<node->keys.size(); ++i) {
                     if(key==node->keys[i]) return true;
-                    else if(key<node->keys[i]) break;
+                    else ifMadera(key<node->keys[i]) break;
                 }
                 if(!node->isLeaf) node = node->childs[i];
                 else node = 0;
             }
             return false;
         }
-
+         */
 
         /* Copia */
         bool find(ID key, string nodeDir, int &i){
@@ -56,7 +57,7 @@ class BTree {
         }
 
         /* Original */
-        void split(T &key, Node<ID>* &node){
+        /*void split(T &key, Node<ID>* &node){
             auto pos = degree/2;
             key = node->keys[pos];
             Node<ID>* newNode = new Node<ID>(degree,node->isLeaf); 
@@ -65,7 +66,7 @@ class BTree {
                 insChilds(newNode,node,pos);
             }
             node = newNode;
-        } 
+        } */
 
         /* Split leaf */
         void splitLeaf(ID &key, Node<ID> &node){
@@ -137,9 +138,9 @@ class BTree {
             /* Preguntar si es hoja */
             Pagina newpage;
             if(!nodo.isLeaf){
-                string tnode = nodo.childs[i];
+                string tnode = nodo.childs[i].to_string();
                 Node <ID> tnodo;
-                cagar_nodo(tnodo, stoi(tnode));
+                cargar_nodo(tnodo, stoi(tnode));
                 if(insert(record, key, tnodo)){
                     for(int pos = tnodo.size; pos>i; pos--){
                         tnodo.keys[pos] = tnodo.keys[pos-1];
@@ -151,7 +152,7 @@ class BTree {
                     tnodo.size++;
                 }
             }else{
-                Pagina page(nodo.childs[i]); /* TO DO */
+                Pagina page(nodo.childs[i].to_string()); /* TO DO */
                 if(page.size==MAX_RECORDS){
                     /*  Insertamos en el registro en la pagina y lo separamos en dos  */
                     page.All_registers.push_back(record);
@@ -178,7 +179,7 @@ class BTree {
                 page.write(); /* TO DO */
             }
 
-            if(nodo.keys.size == GRADO){
+            if(nodo.size == GRADO){
                 if(nodo.isLeaf) splitLeaf(key,nodo);
                 else split(key,nodo);
                 return true;
@@ -265,7 +266,7 @@ class BTree {
         /*copia*/
         bool insert(Registro registro) {
             Node<ID> temp(false);
-            cargar_nodo(temp,pos_root);         
+            cargar_nodo(temp,stoi(pos_root));
             if(insert(registro,registro.codigo,temp)){
                 Node<ID> newNode(false);
                 newNode.keys[0]=registro.codigo;
@@ -273,11 +274,11 @@ class BTree {
                 newNode.childs[1]=temp.position;
                 temp = newNode;
             }
-            if (pos_root!=temp.position){
+            if (pos_root!=to_string(temp.position)){
                 Node<ID> check;
                 cargar_nodo(check,0);
                 escribir_nodo(check);
-                escribir_nodo(temp,0);
+                escribir_nodo(temp);
             }
             return true;
         }

@@ -2,7 +2,6 @@
 #define NODO_H 
 #define GRADO 3 //TAMANO DE HIJOS DE UN NODO
 #define TAMANO_STRING 10
-#include "Registro.h"
 #include <string.h>
 #include <vector>
 #include <fstream>
@@ -44,12 +43,19 @@ struct STRING{
     void operator=(string second){
         copy(second.begin(),second.begin()+TAMANO_STRING-1,instance);
     }
+    void operator=(int second){
+        snprintf(instance,sizeof(instance),"%d",second);
+    }
     void print(){
         cout<<instance<<" ";
     }
     int STOI(){
         int retorno;
         return  sscanf(instance,"%d ",&retorno );
+    }
+    string to_string(){
+        string temporal=instance;
+        return temporal;
     }
 };
 
