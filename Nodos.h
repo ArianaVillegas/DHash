@@ -7,6 +7,7 @@
 #include <vector>
 #include <fstream>
 #include <algorithm> 
+#include <stdio.h>
 using namespace std; 
 /*
 
@@ -46,20 +47,25 @@ struct STRING{
     void print(){
         cout<<instance<<" ";
     }
+    int STOI(){
+        int retorno;
+        return  sscanf(instance,"%d ",&retorno );
+    }
 };
 
 
 
 
 template< typename ID> 
-class Nodo {
+class Node {
     public:
-    STRING childs[GRADO+1]; //tamaño igual a GRADO
-    ID keys[GRADO]; //tamano = Grado-1
+    STRING childs[GRADO+1]; //tamaño igual a GRADO (+1 de overflow)
+    ID keys[GRADO]; //tamano = Grado-1(+1 de overflow)
     bool isLeaf;
     int size;           // falta poner en el constructor 
-    string position;
-    Nodo ( bool isLeaf ) : isLeaf(isLeaf),size(0) {};
+    int position;
+    Node ( bool isLeaf ) : isLeaf(isLeaf),size(0),position(-1) {};
+    Node ( ) : size(0),position(-1) {};
     void print_node(){
         for(int i=0;i<size;i++){
             cout<<" "<<keys[i];
@@ -84,7 +90,7 @@ class Nodo {
      * @param position the logical position you are trying to read 
      * */
 template<typename ID>
-void cargar_nodo(Nodo<ID> &node,int position){
+void cargar_nodo(Node<ID> &node,int position){
     fstream pagina;
     pagina.open("nodos.txt",ios::binary|ios::in);
     pagina.seekg(position*sizeof(node),ios::beg);
@@ -93,32 +99,23 @@ void cargar_nodo(Nodo<ID> &node,int position){
 }
 
 
-/**
-     * @param node the node you are trying to read
-     * */
+
 template<typename ID>
-void escribir_nodo(Nodo<ID> &node){
+void escribir_nodo(Node<ID> &node){
     fstream pagina;
-    pagina.open("nodos.txt",ios::binary|ios::app);
-    pagina.write((char*) &node,sizeof(node) );
-    pagina.close();
-}
+    if(node.position==-1){
+        pagina.open("nodos.txt",ios::binary|ios::app);
+        pagina.write((char*) &node,sizeof(node) );
+        pagina.close();
+    }
+    else{
+        pagina.open("nodos.txt",ios::binary);
+        pagina.seekp(node.position*sizeof(node));
+        pagina.write((char*) &node,sizeof(node) );
+        pagina.close();
+            
+     }
 
-/*
-
-*/
-
-/**
-     * @param node the node you are trying to write
-     * @param pos the logical position you are trying to write 
-     * */
-template<typename ID>
-void escribir_nodo(Nodo<ID> &node,int pos){
-    fstream pagina;
-    pagina.open("nodos.txt",ios::binary);
-    pagina.seekp(pos*sizeof(node),ios::beg);
-    pagina.write((char*) &node,sizeof(node) );
-    pagina.close();
 }
 
 
