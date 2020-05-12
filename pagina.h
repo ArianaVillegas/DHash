@@ -5,7 +5,7 @@
 #include <fstream>
 #include "Registro.h"
 #include <vector>
-#define MAX_RECORDS
+#define MAX_RECORDS 10
 using namespace std; 
 
 void swap(Registro* a, Registro* b)  
@@ -56,9 +56,11 @@ struct Pagina{
 
     void sort(){
         quickSort(All_registers,0,All_registers.size()-1);
-    };
-
-
+    }
+    void setName(){
+        name = All_registers[0].codigo;
+        name +=  ".txt"; 
+    }
     void write(){
         fstream file;
         file.open(name,ios::out| ios::binary);
@@ -70,17 +72,16 @@ struct Pagina{
     };
 
     Pagina(string fileName): name{fileName} {
-       // loadPage(fileName);
+        loadPage(fileName);
     }; 
-
+    Pagina(): name{""} {  
+    }; 
     void loadPage(string fileName){
         fstream file;
         file.open(fileName, ios::in | ios::binary);
         Registro buffer;
         string bug;
-     //   cout << file.tellg() << endl;
         while(file >> buffer){  
-     //       buffer.show();
             cout << file.tellg() << endl; 
             All_registers.push_back(buffer);
         }  
@@ -93,15 +94,6 @@ struct Pagina{
         }
     }
 };
-
-
-
-
-
-
-
-
-
 
 
 #endif

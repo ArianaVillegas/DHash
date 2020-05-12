@@ -135,6 +135,7 @@ class BTree {
                 if(key<=nodo.keys[i]) break;
 
             /* Preguntar si es hoja */
+            Pagina newpage;
             if(!nodo.isLeaf){
                 string tnode = nodo.childs[i];
                 Node <ID> tnodo;
@@ -149,15 +150,14 @@ class BTree {
                     tnodo.size++;
                 }
             }else{
-                Pagina page = loadPage(nodo.childs[i]); /* TO DO */
+                Pagina page(nodo.childs[i]); /* TO DO */
                 if(page.size==MAX_RECORDS){
                     /*  Insertamos en el registro en la pagina y lo separamos en dos  */
-                    Pagina newpage;
                     page.All_registers.push_back(record);
                     page.sort();    /* TO DO */
-                    newpage.All_registers.insert(page.All_registers.begin() + MAX_RECORDS/2, page.All_registers.end());
+                    newpage.All_registers.insert(newpage.All_registers.begin(),page.All_registers.begin() + MAX_RECORDS/2, page.All_registers.end());
                     page.All_registers.erase(page.All_registers.begin() + MAX_RECORDS/2, page.All_registers.end());
-                    
+                    newpage.setName();
                     /* Hace que los keys apuntan a su respectiva pagina */ 
                     for(int pos = nodo.size; pos>i; pos--){
                         nodo.keys[pos] = nodo.keys[pos-1];
