@@ -5,23 +5,25 @@
 #include <fstream>
 #include "Registro.h"
 #include <vector>
+#include "STRING.h"
 #define MAX_RECORDS 10
 using namespace std; 
+typedef STRING char_t;
 
-void swap(Registro* a, Registro* b)  
+void swap(Registro<char_t>* a, Registro<char_t>* b)
 {  
-    Registro t = *a;  
+    Registro<char_t> t = *a;
     *a = *b;  
     *b = t;  
 }  
-int partition (vector<Registro> &arr, int low, int high)  
+int partition (vector<Registro<char_t>> &arr, int low, int high)
 {  
-    int pivot = stoi(arr[high].codigo); 
+    int pivot = stoi(arr[high].codigo.to_string());
     int i = (low - 1); 
   
     for (int j = low; j <= high - 1; j++)  
     {  
-        if (stoi(arr[j].codigo) < pivot)  
+        if (stoi(arr[j].codigo.to_string()) < pivot)
         {  
             i++; 
             swap(&arr[i], &arr[j]);  
@@ -30,7 +32,7 @@ int partition (vector<Registro> &arr, int low, int high)
     swap(&arr[i + 1], &arr[high]);  
     return (i + 1);  
 }  
-void quickSort(vector <Registro>  &arr, int low, int high)  
+void quickSort(vector <Registro<char_t>>  &arr, int low, int high)
 {  
     if (low < high)  
     {  
@@ -40,7 +42,7 @@ void quickSort(vector <Registro>  &arr, int low, int high)
     }  
 }  
 
-istream & operator >> (istream & stream, Registro & record)
+istream & operator >> (istream & stream, Registro<char_t> & record)
 {	   
     stream.read((char *) &record, sizeof(record));
     string bufer;
@@ -51,19 +53,19 @@ istream & operator >> (istream & stream, Registro & record)
 struct Pagina{
     int size; 
     string name;  //to define 
-    vector<Registro> All_registers;
+    vector<Registro<char_t>> All_registers;
     string puntero_siguiente;
 
     void sort(){
         quickSort(All_registers,0,All_registers.size()-1);
     }
     void setName(){
-        name = All_registers[0].codigo;
+        name = All_registers[0].codigo.to_string();
         name +=  ".txt"; 
     }
     void write(){
         fstream file;
-        file.open(name,ios::out| ios::binary);
+        file.open(name,ios::out| ios::binary |ios::trunc);
         for( int i = 0 ; i  < All_registers.size() ; i++){
             file.write((char*) &All_registers[i] , sizeof(All_registers[i]));
             file << endl;
@@ -71,20 +73,21 @@ struct Pagina{
         file.close();
     };
 
-    Pagina(string fileName): name{fileName} {
+    Pagina(string fileName): name{fileName},size(0) {
         loadPage(fileName);
     }; 
-    Pagina(): name{""} {  
+    Pagina(): name{""},size(0) {
     }; 
     void loadPage(string fileName){
         fstream file;
         file.open(fileName, ios::in | ios::binary);
-        Registro buffer;
+        Registro<char_t> buffer;
         string bug;
-        while(file >> buffer){  
-            cout << file.tellg() << endl; 
+        while(file >> buffer){
+            //cout << file.tellg() << endl;
             All_registers.push_back(buffer);
-        }  
+        }
+        size=All_registers.size();
         file.close();
     }
 

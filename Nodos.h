@@ -1,12 +1,12 @@
 #ifndef NODO_H
 #define NODO_H 
 #define GRADO 3 //TAMANO DE HIJOS DE UN NODO
-#define TAMANO_STRING 10
 #include <string.h>
 #include <vector>
 #include <fstream>
 #include <algorithm> 
 #include <stdio.h>
+#include "STRING.h"
 using namespace std; 
 /*
 
@@ -37,29 +37,6 @@ public:
 };
 */
 
-struct STRING{
-    char instance[TAMANO_STRING];
-    
-    void operator=(string second){
-        copy(second.begin(),second.begin()+TAMANO_STRING-1,instance);
-    }
-    void operator=(int second){
-        snprintf(instance,sizeof(instance),"%d",second);
-    }
-    void print(){
-        cout<<instance<<" ";
-    }
-    int STOI(){
-        int retorno;
-        return  sscanf(instance,"%d ",&retorno );
-    }
-    string to_string(){
-        string temporal=instance;
-        return temporal;
-    }
-};
-
-
 
 
 template< typename ID> 
@@ -88,7 +65,29 @@ class Node {
 
 
     template<class>
-    friend class BTree; 
+    friend class BTree;
+
+    void insert_keys(Node<ID> &second,int start,int end){
+        int helper=0;
+        for (int i=start;i<end;i++){
+            second.keys[helper]=this->keys[i];
+            helper++;
+            second.size++;
+        }
+
+    }
+    void erase_keys(int start,int end){
+        size-=(end-start);
+    }
+
+    void insert_childs(Node<ID> &second,int start,int end){
+        int helper=0;
+        for (int i=start;i<end;i++){
+            second.childs[helper]=this->keys[i];
+            helper++;
+        }
+    }
+
 };
 
 /**
@@ -96,12 +95,21 @@ class Node {
      * @param position the logical position you are trying to read 
      * */
 template<typename ID>
-void cargar_nodo(Node<ID> &node,int position){
+bool cargar_nodo(Node<ID> &node,int position){
     fstream pagina;
-    pagina.open("nodos.txt",ios::binary|ios::in);
+    pagina.open("nodos.txt",ios::binary|ios::in );
+
+    pagina.seekg(0,ios::end);
+    int size=pagina.tellg();
+
+    if(size==0){
+        return false;
+    }
+
     pagina.seekg(position*sizeof(node),ios::beg);
     pagina.read((char *)&node,sizeof(node ));
     pagina.close();
+    return true;
 }
 
 
@@ -110,12 +118,12 @@ template<typename ID>
 void escribir_nodo(Node<ID> &node){
     fstream pagina;
     if(node.position==-1){
-        pagina.open("nodos.txt",ios::binary|ios::app);
+        pagina.open("nodos.txt",ios::binary|ios::app |ios::out);
         pagina.write((char*) &node,sizeof(node) );
         pagina.close();
     }
     else{
-        pagina.open("nodos.txt",ios::binary);
+        pagina.open("nodos.txt",ios::binary |ios::out);
         pagina.seekp(node.position*sizeof(node));
         pagina.write((char*) &node,sizeof(node) );
         pagina.close();
@@ -123,6 +131,8 @@ void escribir_nodo(Node<ID> &node){
      }
 
 }
+
+
 
 
 #endif 

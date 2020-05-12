@@ -4,10 +4,11 @@
 #include <string>
 using namespace std; 
 
-
+template<typename ID>
+#include "STRING.h"
 struct Registro
 {
-    char codigo[5];
+    ID codigo;
 	char Nombre[12] ;
 	char Apellidos[20] ;
     char Carrera[20];
