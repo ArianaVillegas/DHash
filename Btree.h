@@ -145,7 +145,8 @@ class BTree {
                         tnodo.keys[pos] = tnodo.keys[pos-1];
                         tnodo.childs[pos+1] = tnodo.childs[pos];
                     }
-                    tnodo.keys[i] = newpage.All_registers[0].key;
+                    tnodo.keys[i] = newpage.All_registers[0].codigo;
+                    newpage.setName();
                     tnodo.childs[i+1] = newpage.name; 
                     tnodo.size++;
                 }
@@ -163,7 +164,7 @@ class BTree {
                         nodo.keys[pos] = nodo.keys[pos-1];
                         nodo.childs[pos] = nodo.childs[pos-1];
                     }
-                    nodo.keys[i] = newpage.All_registers[0].key;
+                    nodo.keys[i] = newpage.All_registers[0].codigo;
                     nodo.childs[i] = newpage.name; 
                     nodo.size++;
                     escribir_nodo(nodo);
@@ -242,12 +243,12 @@ class BTree {
         }
 
         bool search(ID k) { 
-            auto temp = root; int i;
+            auto temp = pos_root; int i;
             find(k,temp,i);
         } 
 
         /*original*/
-        bool insert(ID k) {
+        /*bool insert(ID k) {
             auto temp = root;
             if(insert(k,temp)){
                 Node<T>* newNode = new Node<T>(degree,false);
@@ -259,7 +260,7 @@ class BTree {
             root = temp;
 
             return true;
-        }
+        }*/
 
         /*copia*/
         bool insert(Registro registro) {
