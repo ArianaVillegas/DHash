@@ -47,19 +47,26 @@ class Node {
     bool isLeaf;
     int size;           // falta poner en el constructor 
     int position;
-    Node ( bool isLeaf ) : isLeaf(isLeaf),size(0),position(-1) {};
-    Node ( ) : size(0),position(-1) {};
+    Node ( bool isLeaf ) : isLeaf(isLeaf),size(0),position(-1) {
+        for(int i=0; i<GRADO; i++){
+            if(i!=GRADO-1) keys[i] = "-1";
+            childs[i] = "-1";
+        }
+    };
+    Node ( ) : size(0),position(-1) {
+        for(int i=0; i<GRADO; i++){
+            if(i!=GRADO-1) keys[i] = "-1";
+            childs[i] = "-1";
+        }
+    };
     void print_node(){
         for(int i=0;i<size;i++){
             cout<<" "<<keys[i];
         }
         cout<<endl;
-        for(int i=0;i<size;i++){
+        for(int i=0;i<=size;i++){
             childs[i].print();
-        }
-        if(!isLeaf){
-            childs[2].print(); 
-        }        
+        }    
         cout<<endl;
     }
 
@@ -117,22 +124,22 @@ bool cargar_nodo(Node<ID> &node,int position){
 template<typename ID>
 void escribir_nodo(Node<ID> &node){
     fstream pagina;
+    pagina.open("nodos.txt",ios::binary | ios::out | ios::ate);
     if(node.position==-1){
-        pagina.open("nodos.txt",ios::binary|ios::app |ios::out);
-        node.position=pagina.tellg()/(sizeof(node)+1);
-        pagina.write((char*) &node,sizeof(node) );
+        node.print_node();
+        cout << node.position*sizeof(node) << '\n';
+        node.position=pagina.tellg()/(sizeof(Node<ID>)+1);
+        pagina.seekp(0,ios::end);
+        pagina.write((char*) &node,sizeof(Node<ID>));
         pagina<<endl;
-        pagina.close();
-    }
-    else{
-        pagina.open("nodos.txt",ios::binary |ios::out);
-        pagina.seekp(node.position*(1+sizeof(node)));
-        pagina.write((char*) &node,sizeof(node) );
+    }else{
+        node.print_node();
+        cout << node.position*sizeof(node) << '\n';
+        pagina.seekp(node.position*(sizeof(Node<ID>)+1), ios::beg);
+        pagina.write((char*) &node,sizeof(Node<ID>));
         pagina<<endl;
-        pagina.close();
-            
      }
-
+    pagina.close();
 }
 
 

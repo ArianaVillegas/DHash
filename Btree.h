@@ -70,7 +70,7 @@ class BTree {
         } */
 
         /* Split leaf */
-        Node<ID> splitLeaf(ID &key, Node<ID>* &node){
+        void splitLeaf(ID &key, Node<ID>* &node){
             cout<<" SE ESTA SPLITEANDO con size: "<<node->size<<endl;
             auto pos = GRADO/2;
             key = node->keys[pos];
@@ -92,9 +92,10 @@ class BTree {
 
             escribir_nodo(*node);
             //node.write();
-
             escribir_nodo(*newnode);
             //newnode.write();
+            node->print_node();
+            newnode->print_node();
             node = newnode;
         }       
 
@@ -171,6 +172,7 @@ class BTree {
                     ss= ptnodo->position;
                     nodo->childs[i+1] = ss; 
                     nodo->size++;
+                    escribir_nodo(*nodo);
                 }
             }else{
                 Pagina page(nodo->childs[i-1].to_string()); /* TO DO */
@@ -268,7 +270,7 @@ class BTree {
             }
             cout<<pos_root<<endl;
                 file.close();
-             }
+        }
 
         bool search(ID k) { 
             auto temp = pos_root; int i;
@@ -316,22 +318,30 @@ class BTree {
             temp.print_node();
             ID codigo_registro =registro.codigo;
             if(insert(registro,codigo_registro,ptemp)){
+                cout << "\n-----------------------\n";
+                cout << ptemp->position << '\n';
 
                 Node<ID> newNode(false);
+                Node<ID> check;
+                newNode = check;
+                cargar_nodo(check,0);
+                check.position=-1;
+                escribir_nodo(check);
+
+                newNode.isLeaf=0;
                 newNode.position=0;
                 newNode.keys[0]=codigo_registro;
-                newNode.childs[0]=pos_root;
+                newNode.childs[0]=check.position;
+                cout << ptemp->position << '\n';
                 newNode.childs[1]=ptemp->position;
                 newNode.size++;
-                escribir_nodo(newNode);
 
+                cout << "\n-------------------------\n";
+                newNode.print_node();
+                /*Aqui esta el problema*/
+                //escribir_nodo(newNode);
             }
-            if (pos_root!=to_string(temp.position)){
-                Node<ID> check;
-                cargar_nodo(check,0);
-                escribir_nodo(check);
-                escribir_nodo(temp);
-            }
+            
             return true;
         }
         
