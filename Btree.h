@@ -70,54 +70,54 @@ class BTree {
         } */
 
         /* Split leaf */
-        Node<ID> splitLeaf(ID &key, Node<ID> &node){
-            cout<<" SE ESTA SPLITEANDO con size: "<<node.size<<endl;
+        Node<ID> splitLeaf(ID &key, Node<ID>* &node){
+            cout<<" SE ESTA SPLITEANDO con size: "<<node->size<<endl;
             auto pos = GRADO/2;
-            key = node.keys[pos];
-            Node<ID> newnode(true);
+            key = node->keys[pos];
+            Node<ID>* newnode = new Node<ID>(true);
             //newnode.keys.insert(newnode.keys.begin(), node.keys.begin()+pos, node.keys.end());
-            node.insert_keys(newnode,pos,node.size);
-            int size_temporal=node.size;
+            node->insert_keys(newnode,pos,node->size);
+            int size_temporal=node->size;
             //node.keys.erase(node.keys.begin()+pos, node.keys.end());
-            node.erase_keys(pos,node.size);
+            node->erase_keys(pos,node->size);
 
 
 
                 //newnode.childs.insert(newnode.childs.begin(), node.childs.begin()+pos, node.childs.end());
-                node.insert_childs(newnode,pos,size_temporal);
+                node->insert_childs(newnode,pos,size_temporal);
                 //node.childs.erase(node.childs.begin()+pos, node.childs.end());
                 //*no pongo nada aca porque se supone que lo hace el erase de arriba
-                node.childs[GRADO-1] = newnode.childs[0];
+                node->childs[GRADO-1] = newnode->childs[0];
 
 
-            escribir_nodo(node);
+            escribir_nodo(*node);
             //node.write();
 
-            escribir_nodo(newnode);
+            escribir_nodo(*newnode);
             //newnode.write();
-            return newnode;
+            node = newnode;
         }       
 
         /* Split */
-        void split(ID &key, Node<ID> &node){
+        void split(ID &key, Node<ID>* &node){
             auto pos = GRADO/2;
-            key = node.keys[pos];
-            Node<ID> newnode (false);
+            key = node->keys[pos];
+            Node<ID>* newnode = new Node<ID>(true);
             //newnode.keys.insert(newnode.keys.begin(), node.keys.begin()+pos, node.keys.end());
-            node.insert_keys(newnode,pos,node.size);
+            node->insert_keys(*newnode,pos,node->size);
             //node.keys.erase(node.keys.begin()+pos, node.keys.end());
-            node.erase_keys(pos,node.size);
+            node->erase_keys(pos,node->size);
 
 
                 //newnode.childs.insert(newnode.childs.begin(), node.childs.begin()+pos+1, node.childs.end());
-                node.insert_childs(newnode,pos+1,node.size);
+                node->insert_childs(*newnode,pos+1,node->size);
                 //node.childs.erase(node.childs.begin()+pos+1, node.childs.end());
                 //no pongo nada porque se supone que el erase lo hace
 
 
-            escribir_nodo(node);
+            escribir_nodo(*node);
             //node.write();
-            escribir_nodo(newnode);
+            escribir_nodo(*newnode);
             //newnode.write();
             node = newnode;
         }       
@@ -146,30 +146,32 @@ class BTree {
         }
 
         /* COPY */ 
-        bool insert(Registro<ID> record, ID &key, Node<ID> &nodo){
+        bool insert(Registro<ID> record, ID &key, Node<ID>* &nodo){
             /* Buscamos la posicion a seguir en los nodos */
             int i;
-            for (i = 0; i < nodo.size; i++)
-                if(key<nodo.keys[i]) break;
+            for (i = 0; i < nodo->size; i++)
+                if(key<nodo->keys[i]) break;
 
             /* Preguntar si es hoja */
             Pagina newpage;
-            if(!nodo.isLeaf){
-                string tnode = nodo.childs[i].to_string();
+            if(!nodo->isLeaf){
+                string tnode = nodo->childs[i].to_string();
                 Node <ID> tnodo;
                 cargar_nodo(tnodo, stoi(tnode));
-                if(insert(record, key, tnodo)){
-                    for(int pos = tnodo.size; pos>i; pos--){
-                        tnodo.keys[pos] = tnodo.keys[pos-1];
-                        tnodo.childs[pos+1] = tnodo.childs[pos];
+                Node<ID>* ptnodo = &tnodo;
+                if(insert(record, key, ptnodo)){
+                    for(int pos = ptnodo->size; pos>i; pos--){
+                        nodo->keys[pos] = nodo->keys[pos-1];
+                        nodo->childs[pos+1] = nodo->childs[pos];
                     }
-                    tnodo.keys[i] = newpage.All_registers[0].codigo;
-                    newpage.setName();
-                    tnodo.childs[i+1] = newpage.name; 
-                    tnodo.size++;
+                    nodo->keys[i] = key;
+                    /*Arreglar error de asignación*/
+                    //STRING ss = ptnodo->position;
+                    nodo->childs[i+1] = ss; 
+                    nodo->size++;
                 }
             }else{
-                Pagina page(nodo.childs[i-1].to_string()); /* TO DO */
+                Pagina page(nodo->childs[i-1].to_string()); /* TO DO */
                 if(page.size==MAX_RECORDS){
                     /*  Insertamos en el registro en la pagina y lo separamos en dos  */
                     page.All_registers.push_back(record);
@@ -178,14 +180,14 @@ class BTree {
                     page.All_registers.erase(page.All_registers.begin() + MAX_RECORDS/2, page.All_registers.end());
                     newpage.setName();
                     /* Hace que los keys apuntan a su respectiva pagina */ 
-                    for(int pos = nodo.size; pos>i; pos--){
-                        nodo.keys[pos] = nodo.keys[pos-1];
-                        nodo.childs[pos] = nodo.childs[pos-1];
+                    for(int pos = nodo->size; pos>i; pos--){
+                        nodo->keys[pos] = nodo->keys[pos-1];
+                        nodo->childs[pos] = nodo->childs[pos-1];
                     }
-                    nodo.keys[i] = newpage.All_registers[0].codigo;
-                    nodo.childs[i] = newpage.name; 
-                    nodo.size++;
-                    escribir_nodo(nodo);
+                    nodo->keys[i] = newpage.All_registers[0].codigo;
+                    nodo->childs[i] = newpage.name; 
+                    nodo->size++;
+                    escribir_nodo(*nodo);
                     //nodo.write();
                     page.write();
                     newpage.write();
@@ -197,8 +199,8 @@ class BTree {
                 page.write(); /* TO DO */
             }
 
-            if(nodo.size == GRADO){
-                if(nodo.isLeaf) splitLeaf(key,nodo);
+            if(nodo->size == GRADO){
+                if(nodo->isLeaf) splitLeaf(key,nodo);
                 else split(key,nodo);
                 return true;
             }
@@ -308,16 +310,16 @@ class BTree {
                 return true;
             }
             cargar_nodo(temp,stoi(pos_root));//este pos__root es "" por lo que el stoi manda F
+            Node<ID>* ptemp = &temp;
             temp.print_node();
             ID codigo_registro =registro.codigo;
-            if(insert(registro,codigo_registro,temp)){
+            if(insert(registro,codigo_registro,ptemp)){
                 Node<ID> newNode(false);
                 newNode.position=0;
                 newNode.keys[0]=codigo_registro;
                 newNode.childs[0]=pos_root;
                 newNode.childs[1]=temp.position;
                 newNode.size++;
-                temp = newNode;
                 escribir_nodo(newNode);
 
             }
