@@ -76,7 +76,7 @@ class BTree {
             key = node->keys[pos];
             Node<ID>* newnode = new Node<ID>(true);
             //newnode.keys.insert(newnode.keys.begin(), node.keys.begin()+pos, node.keys.end());
-            node->insert_keys(newnode,pos,node->size);
+            node->insert_keys(*newnode,pos,node->size);
             int size_temporal=node->size;
             //node.keys.erase(node.keys.begin()+pos, node.keys.end());
             node->erase_keys(pos,node->size);
@@ -84,7 +84,7 @@ class BTree {
 
 
                 //newnode.childs.insert(newnode.childs.begin(), node.childs.begin()+pos, node.childs.end());
-                node->insert_childs(newnode,pos,size_temporal);
+                node->insert_childs(*newnode,pos,size_temporal);
                 //node.childs.erase(node.childs.begin()+pos, node.childs.end());
                 //*no pongo nada aca porque se supone que lo hace el erase de arriba
                 node->childs[GRADO-1] = newnode->childs[0];
@@ -166,7 +166,9 @@ class BTree {
                     }
                     nodo->keys[i] = key;
                     /*Arreglar error de asignación*/
-                    //STRING ss = ptnodo->position;
+
+                    STRING ss;
+                    ss= ptnodo->position;
                     nodo->childs[i+1] = ss; 
                     nodo->size++;
                 }
@@ -314,11 +316,12 @@ class BTree {
             temp.print_node();
             ID codigo_registro =registro.codigo;
             if(insert(registro,codigo_registro,ptemp)){
+
                 Node<ID> newNode(false);
                 newNode.position=0;
                 newNode.keys[0]=codigo_registro;
                 newNode.childs[0]=pos_root;
-                newNode.childs[1]=temp.position;
+                newNode.childs[1]=ptemp->position;
                 newNode.size++;
                 escribir_nodo(newNode);
 

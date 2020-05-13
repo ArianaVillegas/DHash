@@ -16,7 +16,7 @@ int main(){
     strcpy(temporal.Nombre,"Cesar");
     strcpy(temporal.Carrera,"CS");
     btree.insert(temporal);
-    for (int i=0;i< 30;i++ ){
+    for (int i=0;i< 15;i++ ){
         string crear_codigo="00";
         int codigo=i+1;
         if(i<9){
