@@ -7,6 +7,7 @@
 #include <algorithm> 
 #include <stdio.h>
 #include "STRING.h"
+#include <unistd.h>
 using namespace std; 
 /*
 
@@ -60,10 +61,12 @@ class Node {
         }
     };
     void print_node(){
+        cout << "Nodo:";
         for(int i=0;i<size;i++){
             cout<<" "<<keys[i];
         }
         cout<<endl;
+        cout << "Child: ";
         for(int i=0;i<=size;i++){
             childs[i].print();
         }    
@@ -123,25 +126,35 @@ bool cargar_nodo(Node<ID> &node,int position){
 
 template<typename ID>
 void escribir_nodo(Node<ID> &node){
-    fstream pagina;
+    
+    cout << "escribir_nodo: node.position: " << node.position << endl;  
     if(node.position==-1){
+        fstream pagina;
         node.print_node();
-        cout << node.position*sizeof(node) << '\n';
         pagina.open("nodos.txt",ios::binary|ios::app |ios::out);
-        node.position=pagina.tellg()/(sizeof(Node<ID>));
+        node.position=pagina.tellg()/(sizeof(Node<ID>)+1);
         pagina.write((char*) &node,sizeof(Node<ID>) );
         pagina<<endl;
         pagina.close();
     }else{
+        fstream pagina;
         node.print_node();
-        cout << node.position*sizeof(node) << '\n';
-        pagina.open("nodos.txt",ios::binary |ios::out);
-        pagina.seekp(node.position*(sizeof(Node<ID>)), ios::beg);
+      //  cout << node.position*sizeof(node) << '\n';
+        cout << "escribir_nodo():  Primer sleep" <<endl;
+      //  sleep(5);
+        pagina.open("nodos.txt");
+        cout << "escribir_nodo():  Segundo sleep" <<endl;
+     //   sleep(5);
+        pagina.seekp(node.position*(sizeof(Node<ID>)+1));
+        cout << "escribir_nodo(): sizeof(node): " << sizeof(node) << endl;
+        cout << "escribir_nodo(): sizeof(Node<ID>): " << sizeof(Node<ID>) << endl;
+        cout << "escribir_nodo(): pagina.tellp(): " << pagina.tellp() << endl;
+        cout << "escribir_nodo():  Tercer sleep" <<endl;
+     //   sleep(5);
         pagina.write((char*) &node,sizeof(Node<ID>));
         pagina<<endl;
         pagina.close();
      }
-
 }
 
 

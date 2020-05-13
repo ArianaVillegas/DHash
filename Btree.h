@@ -46,7 +46,7 @@ class BTree {
             return false;
         }
 
-        
+        /*
         void insKeys(Node<ID>* &node1, Node<ID>* &node2, int pos){
             node1->keys.insert(node1->keys.begin(),node2->keys.begin()+pos+1,node2->keys.end());
             node2->keys.erase(node2->keys.begin()+pos,node2->keys.end());
@@ -56,7 +56,7 @@ class BTree {
             node1->childs.insert(node1->childs.begin(),node2->childs.begin()+pos+1,node2->childs.end());
             node2->childs.erase(node2->childs.begin()+pos+1,node2->childs.end());
         }
-
+*/
         /* Original */
         /*void split(T &key, Node<ID>* &node){
             auto pos = degree/2;
@@ -123,9 +123,9 @@ class BTree {
             node = newnode;
         }       
 
-
+        
         /* ORIGINAL */
-        bool insert(ID &key, Node<ID>* &node){
+      /*  bool insert(ID &key, Node<ID>* &node){
             int i;
             ID actual;
             for(i=0; i<node->keys.size(); ++i)
@@ -144,7 +144,7 @@ class BTree {
                 return true;
             }
             return false;
-        }
+        } */
 
         /* COPY */ 
         bool insert(Registro<ID> record, ID &key, Node<ID>* &nodo){
@@ -268,8 +268,7 @@ class BTree {
             }else {
                 pos_root = "0";
             }
-            cout<<pos_root<<endl;
-                file.close();
+            file.close();
         }
 
         bool search(ID k) { 
@@ -294,7 +293,8 @@ class BTree {
 
         /*copia*/
         bool insert(Registro<ID> registro) {
-            cout<<"INSERT PUBLIC()"<<endl;
+            cout << "--------------------------------------------" << endl;
+            cout << "\t insert registro: " << registro.codigo << endl;
 
             Node<ID> temp(false);
             temp.print_node();
@@ -318,8 +318,6 @@ class BTree {
             temp.print_node();
             ID codigo_registro =registro.codigo;
             if(insert(registro,codigo_registro,ptemp)){
-                cout << "\n-----------------------\n";
-                cout << ptemp->position << '\n';
 
                 Node<ID> newNode(false);
                 Node<ID> check;
@@ -332,14 +330,13 @@ class BTree {
                 newNode.position=0;
                 newNode.keys[0]=codigo_registro;
                 newNode.childs[0]=check.position;
-                cout << ptemp->position << '\n';
+ 
                 newNode.childs[1]=ptemp->position;
                 newNode.size++;
-
-                cout << "\n-------------------------\n";
-                newNode.print_node();
+      //          newNode.print_node();
                 /*Aqui esta el problema*/
-                //escribir_nodo(newNode);
+                cout << "insert(): newNode.position: " << newNode.position << endl;
+                escribir_nodo(newNode);
             }
             
             return true;
