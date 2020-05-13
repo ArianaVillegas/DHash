@@ -19,6 +19,9 @@ int main(){
     for (int i=0;i< 30;i++ ){
         string crear_codigo="00";
         int codigo=i+1;
+        if(i<9){
+            crear_codigo+="0";
+        }
         crear_codigo+=to_string(codigo);
         temporal.codigo=crear_codigo;
         btree.insert(temporal);

@@ -83,7 +83,7 @@ class Node {
     void insert_childs(Node<ID> &second,int start,int end){
         int helper=0;
         for (int i=start;i<end;i++){
-            second.childs[helper]=this->keys[i];
+            second.childs[helper]=this->childs[i];
             helper++;
         }
     }
@@ -119,13 +119,16 @@ void escribir_nodo(Node<ID> &node){
     fstream pagina;
     if(node.position==-1){
         pagina.open("nodos.txt",ios::binary|ios::app |ios::out);
+        node.position=pagina.tellg()/(sizeof(node)+1);
         pagina.write((char*) &node,sizeof(node) );
+        pagina<<endl;
         pagina.close();
     }
     else{
         pagina.open("nodos.txt",ios::binary |ios::out);
-        pagina.seekp(node.position*sizeof(node));
+        pagina.seekp(node.position*(1+sizeof(node)));
         pagina.write((char*) &node,sizeof(node) );
+        pagina<<endl;
         pagina.close();
             
      }
