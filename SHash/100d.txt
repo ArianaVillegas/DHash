@@ -1,0 +1,100 @@
+U4469|Quyn|Byers|Economia
+T2437|Avram|Mcintosh|Bioingenieria
+H0720|Carolyn|Parker|Computer Science
+P3820|Andrew|Fuentes|Contabilidad
+W8856|Kathleen|Phelps|Economia
+S9299|Graiden|Herring|Bioingenieria
+D9667|Aline|Anderson|Ingenieria Civil
+E9703|Buffy|Brock|Ingenieria Industrial
+S6686|Madeson|Sexton|Ingenieria mecatronica
+I8285|Ivor|Kinney|Computer Science
+Q9138|Hilda|Rice|Ingenieria Civil
+H0398|Chancellor|Andrews|Psicologia
+A3016|Diana|Reilly|Ingenieria Civil
+U2862|Hiroko|Schneider|Psicologia
+O3169|Cassandra|Wilson|Ingenieria Industrial
+E6529|Nadine|Graves|Ingenieria mecatronica
+P4017|Demetrius|Bartlett|Computer Science
+V3845|Curran|Black|Contabilidad
+Z9943|Xandra|Johnson|Economia
+U0369|Castor|Smith|Psicologia
+W1818|Petra|Lindsay|Bioingenieria
+F0672|Illiana|Slater|Ingenieria mecatronica
+E4898|Caryn|Rutledge|Psicologia
+T2038|Lewis|Camacho|Bioingenieria
+W0833|Herman|Prince|Ingenieria Industrial
+M0742|Amery|Wynn|Economia
+S2657|Jennifer|Oneal|Computer Science
+G2166|Wade|James|Contabilidad
+U1616|Idona|Robertson|Ingenieria Civil
+Z7598|Akeem|Kennedy|Computer Science
+S3647|Ezekiel|Munoz|Ingenieria Civil
+G3054|Lamar|Flynn|Ingenieria Industrial
+X4890|Clinton|Oconnor|Bioingenieria
+S2454|Benjamin|Murphy|Ingenieria mecatronica
+T9114|Veda|Wade|Ingenieria Industrial
+X0111|Hammett|Sears|Psicologia
+V6833|Mark|Watts|Economia
+H0587|Dakota|Newman|Computer Science
+E3971|Veda|Swanson|Ingenieria mecatronica
+H6195|Otto|Levy|Ingenieria Industrial
+I6522|Azalia|Zamora|Computer Science
+C9716|Zephania|Olson|Ingenieria Industrial
+D1634|Charlotte|Austin|Bioingenieria
+U1214|Gavin|Richard|Ingenieria mecatronica
+S8715|Rinah|Randall|Ingenieria Civil
+Y9147|Basia|Watts|Ingenieria Industrial
+W9116|Cassidy|Faulkner|Ingenieria Civil
+Q4015|Eric|Battle|Economia
+V5901|Calvin|Riley|Economia
+C5727|Phelan|Bonner|Ingenieria Industrial
+J8129|Quynn|Cobb|Contabilidad
+I9027|Tiger|Chavez|Bioingenieria
+W1979|Trevor|Buchanan|Contabilidad
+R1660|Maris|Hendricks|Economia
+B9620|Pearl|Bryan|Ingenieria mecatronica
+H7653|Yoko|Vinson|Bioingenieria
+J1190|Prescott|Richmond|Bioingenieria
+V1675|Allen|Chase|Bioingenieria
+A9069|Althea|Shepard|Contabilidad
+N9340|Odessa|Whitfield|Ingenieria Industrial
+P6009|Ross|Langley|Ingenieria Industrial
+B6910|Blaine|Roberson|Psicologia
+T2915|Erasmus|Mckenzie|Ingenieria Civil
+Z0535|Tate|Lloyd|Psicologia
+G8303|Lael|Valenzuela|Ingenieria mecatronica
+F6921|Tara|Mccullough|Ingenieria mecatronica
+A0133|Alana|Middleton|Ingenieria Industrial
+U5257|Honorato|Rowe|Economia
+J2636|Neve|Kent|Ingenieria Civil
+U4918|Joelle|Ryan|Bioingenieria
+F6170|Jolie|Vargas|Computer Science
+X8423|Iola|Guthrie|Ingenieria mecatronica
+Y9252|Marvin|Stokes|Ingenieria mecatronica
+J1506|Imogene|Rogers|Psicologia
+Z5634|Xavier|Riddle|Economia
+F9075|Wynne|Downs|Economia
+P7389|Bree|Murray|Ingenieria Civil
+B3187|Zorita|Oliver|Contabilidad
+I4273|Sheila|Tucker|Computer Science
+H1178|Charlotte|Cotton|Psicologia
+L7808|Kermit|Bright|Ingenieria Industrial
+H7259|Micah|Navarro|Psicologia
+G3159|Daria|Cole|Psicologia
+V2333|Magee|Payne|Computer Science
+B7516|Christian|Chen|Economia
+A3549|Carson|Gilmore|Ingenieria mecatronica
+A8804|Fritz|Best|Bioingenieria
+X5295|Tyrone|Knapp|Contabilidad
+J3678|Vincent|Lindsey|Ingenieria Civil
+H8252|Nyssa|Gordon|Bioingenieria
+Y8575|Olympia|Mccall|Economia
+L9751|Drake|Slater|Psicologia
+U0761|Clinton|Cantrell|Bioingenieria
+N7595|Holmes|May|Ingenieria mecatronica
+S2567|Kevin|Tillman|Computer Science
+P1092|Ulric|Fry|Bioingenieria
+J8344|Harper|Moody|Ingenieria mecatronica
+H5467|Joel|Booker|Computer Science
+R9477|Arthur|Buchanan|Ingenieria mecatronica
+Q5666|Curran|Sherman|Ingenieria Civil
