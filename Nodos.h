@@ -135,11 +135,11 @@ void escribir_nodo(Node<ID> &node){
         node.print_node();
         cout<<"------------------"<<endl;
         pagina.open("nodos.txt",ios::binary|ios::app |ios::out);
-        if (pagina.tellg()/(sizeof(Node<ID>)+1)==5){
+        /*if (pagina.tellg()/(sizeof(Node<ID>)+1)==5){
             cout <<" SE DETUVO EN EL IF"<<endl;
             //sleep(25);
             //exit(22);
-        }
+        }*/
         pagina.seekp(0,ios::end);
         node.position=pagina.tellp()/(sizeof(Node<ID>)+1);
         pagina.write((char*) &node,sizeof(Node<ID>) );
