@@ -1,9 +1,10 @@
 #include <bits/stdc++.h>
 #include "pagina.h"
+#include <time.h> 
 
 using namespace std;
 
-const int DEEP=4;
+const int DEEP=8;
 
 struct RegTable{
     int pos;
@@ -63,6 +64,7 @@ class DHash{
 
         void showMenu(){
             int opt;
+            time_t t,t2;
             menu();
             cin >> opt;
             while(opt){
@@ -74,18 +76,26 @@ class DHash{
                     string file;
                     cout << "\nNombre del archivo: ";
                     cin >> file;
+                    t = clock();
                     addFile(file);
+                    t2 = clock();
+                    cout <<  "\n Demoro: "  << (float)(t2-t)/CLOCKS_PER_SEC << " segundos en insertar los registros" ; 
                 }else if(opt==3){
                     Registro r;
                     r.setData();
+                    t = clock();
                     add(r);
+                    t2 = clock();
+                    cout <<  "\n Demoro: "  << (float)(t2-t)/CLOCKS_PER_SEC << " segundos en insertar el registro" ; 
                 }else if(opt==4){
                     string pos;
                     char key[5];
                     cout << "\nKey del alumno a buscar: ";
                     cin >> pos;
                     strcpy(key, pos.c_str());
+                    t = clock();
                     auto r = search(key);
+                    t2 = clock();
                     bool diff=0;
                     char comp[]="-1";
                     for(int i=0; i<2; i++){
@@ -96,6 +106,7 @@ class DHash{
                     }
                     if(diff){
                         r.showData();
+                        cout <<  "\n Demoro: "  << (float)(t2-t)/CLOCKS_PER_SEC << " segundos en encontrar el registro" ; 
                     }else{
                         cout << "Registro no encontrado.\n";
                     }
