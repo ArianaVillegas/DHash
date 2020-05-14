@@ -13,7 +13,9 @@ struct STRING{
     char instance[TAMANO_STRING];
 
     void operator=(string second){
-        copy(second.begin(),second.begin()+TAMANO_STRING-1,instance);
+        //copy(second.begin(),second.begin()+TAMANO_STRING-1,instance);
+        
+        strcpy(instance,second.c_str());
     }
     void operator=(int second){
         snprintf(instance,sizeof(instance),"%d",second);
@@ -28,6 +30,9 @@ struct STRING{
     string to_string(){
         string temporal=instance;
         return temporal;
+    }
+    STRING(){
+        strcpy(instance, "        ");
     }
 };
 
