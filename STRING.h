@@ -25,7 +25,8 @@ struct STRING{
     }
     int STOI(){
         int retorno;
-        return  sscanf(instance,"%d ",&retorno );
+        sscanf(instance,"%d ",&retorno );
+        return retorno;
     }
     string to_string(){
         string temporal=instance;

@@ -68,9 +68,12 @@ class Node {
         }
         cout<<endl;
         cout << "Child: ";
-        for(int i=0;i<=size;i++){
+        for(int i=0;i<size;i++){
             childs[i].print();
-        }    
+        }
+        if (!isLeaf){
+            childs[size].print();
+        }
         cout<<endl;
         cout<<"SU SIZE ES: "<<size<<endl;
     }
@@ -117,7 +120,9 @@ bool cargar_nodo(Node<ID> &node,int position){
     if(size==0){
         return false;
     }
-
+    if (position<0){
+        exit(28);
+    }
     pagina.seekg(position*(sizeof(node)+1),ios::beg);
     pagina.read((char *)&node,sizeof(node ));
     pagina.close();

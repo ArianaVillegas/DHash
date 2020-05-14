@@ -72,7 +72,7 @@ class BTree {
         /* Split leaf */
         void splitLeaf(ID &key, Node<ID>* &node){
             cout<<" SE ESTA SPLITEANDO con size: "<<node->size<<endl;
-            auto pos = GRADO/2;
+            int pos = GRADO/2;
             key = node->keys[pos];
             Node<ID>* newnode = new Node<ID>(true);
             //newnode.keys.insert(newnode.keys.begin(), node.keys.begin()+pos, node.keys.end());
@@ -101,9 +101,9 @@ class BTree {
 
         /* Split */
         void split(ID &key, Node<ID>* &node){
-            auto pos = GRADO/2;
+            int pos = GRADO/2;
             key = node->keys[pos];
-            Node<ID>* newnode = new Node<ID>(true);
+            Node<ID>* newnode = new Node<ID>(false);
             //newnode.keys.insert(newnode.keys.begin(), node.keys.begin()+pos, node.keys.end());
             node->insert_keys(*newnode,pos,node->size);
             //node.keys.erase(node.keys.begin()+pos, node.keys.end());
@@ -178,7 +178,7 @@ class BTree {
                 }
             }else{
                 Pagina page(nodo->childs[i-1].to_string()); /* TO DO */
-                if(page.size==MAX_RECORDS){
+                if(page.size()==MAX_RECORDS){
                     /*  Insertamos en el registro en la pagina y lo separamos en dos  */
                     page.All_registers.push_back(record);
                     page.sort();    /* TO DO */
@@ -199,7 +199,6 @@ class BTree {
                     newpage.write();
                 }else{
                     page.All_registers.push_back(record);
-                    page.size++;
                     page.sort();
                     page.write(); /* TO DO */
                 }
@@ -262,14 +261,15 @@ class BTree {
 
     public:
 
-        void print_tree(STRING pos_root){
+        void print_tree(STRING abc){
             Node<ID> root;
-            cargar_nodo(root,pos_root.STOI());
+            cout<<" POS_ROOT.STOI(): "<<abc.STOI()<<endl;
+            cargar_nodo(root,abc.STOI());
             root.print_node();
             if(root.isLeaf){
                 return;
             }
-            for(int i=0;i<root.size+2;i++){
+            for(int i=0;i<root.size+1;i++){
                 print_tree(root.childs[i]);
             }
 
@@ -321,7 +321,6 @@ class BTree {
                 newroot.size++;
                 Pagina first_page;
                 first_page.All_registers.push_back(registro);
-                first_page.size++;
                 first_page.setName();
                 newroot.keys[0]=registro.codigo;
                 newroot.childs[0]=first_page.name;

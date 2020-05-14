@@ -51,11 +51,12 @@ istream & operator >> (istream & stream, Registro<char_t> & record)
 }
 
 struct Pagina{
-    int size; 
-    string name;  //to define 
+    string name;  //to define
     vector<Registro<char_t>> All_registers;
     string puntero_siguiente;
-
+    int size(){
+        return All_registers.size();
+    }
     void sort(){
         quickSort(All_registers,0,All_registers.size()-1);
     }
@@ -74,10 +75,10 @@ struct Pagina{
         file.close();
     };
 
-    Pagina(string fileName): name{fileName},size(0) {
+    Pagina(string fileName): name{fileName} {
         loadPage(fileName);
     }; 
-    Pagina(): name{""},size(0) {
+    Pagina(): name{""} {
     }; 
     void loadPage(string fileName){
         fstream file;
@@ -88,7 +89,6 @@ struct Pagina{
             //cout << file.tellg() << endl;
             All_registers.push_back(buffer);
         }
-        size=All_registers.size();
         file.close();
     }
 
