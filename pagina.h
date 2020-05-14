@@ -67,6 +67,7 @@ struct Pagina{
         fstream file;
         file.open(name,ios::out| ios::binary |ios::trunc);
         for( int i = 0 ; i  < All_registers.size() ; i++){
+            All_registers[i].show();
             file.write((char*) &All_registers[i] , sizeof(All_registers[i]));
             file << endl;
         }
