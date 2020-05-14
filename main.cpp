@@ -16,7 +16,9 @@ int main(){
     strcpy(temporal.Nombre,"Cesar");
     strcpy(temporal.Carrera,"CS");
     btree.insert(temporal);
-    for (int i=0;i< 15;i++ ){
+    for (int i=0;i< 30;i++ ){
+        cout<<"--------------------------------------"<<endl;
+        cout<<" SE ESTA INSERTANDO EL ELEMENTO "<< i<<endl;
         string crear_codigo="00";
         int codigo=i+1;
         if(i<9){
@@ -27,7 +29,23 @@ int main(){
         btree.insert(temporal);
 
     }
-    /*temporal.codigo="0004";
+    STRING zero;
+    zero=0;
+    btree.print_tree(zero);
+    Node<STRING> GAA;
+    cargar_nodo(GAA,6);
+    GAA.print_node();
+    cargar_nodo(GAA,5);
+    GAA.print_node();
+
+
+    /*
+    Node<STRING> temporal1;
+    cargar_nodo(temporal1,1);
+    cout<<"VERIFICACION -----------------------------------------------------"<<endl;
+    temporal1.print_node();
+
+    temporal.codigo="0004";
     btree.insert(temporal);
     temporal.codigo="0005";
     btree.insert(temporal);

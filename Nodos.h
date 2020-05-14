@@ -61,7 +61,8 @@ class Node {
         }
     };
     void print_node(){
-        cout << "Nodo:";
+        cout << "Nodo:"<<position<<endl;
+        cout<< "isLEAF: "<<int(isLeaf)<<endl;
         for(int i=0;i<size;i++){
             cout<<" "<<keys[i];
         }
@@ -71,6 +72,7 @@ class Node {
             childs[i].print();
         }    
         cout<<endl;
+        cout<<"SU SIZE ES: "<<size<<endl;
     }
 
 
@@ -116,7 +118,7 @@ bool cargar_nodo(Node<ID> &node,int position){
         return false;
     }
 
-    pagina.seekg(position*sizeof(node),ios::beg);
+    pagina.seekg(position*(sizeof(node)+1),ios::beg);
     pagina.read((char *)&node,sizeof(node ));
     pagina.close();
     return true;
@@ -126,13 +128,20 @@ bool cargar_nodo(Node<ID> &node,int position){
 
 template<typename ID>
 void escribir_nodo(Node<ID> &node){
-    
     cout << "escribir_nodo: node.position: " << node.position << endl;  
     if(node.position==-1){
         fstream pagina;
+        cout<<"------------------"<<endl;
         node.print_node();
+        cout<<"------------------"<<endl;
         pagina.open("nodos.txt",ios::binary|ios::app |ios::out);
-        node.position=pagina.tellg()/(sizeof(Node<ID>)+1);
+        if (pagina.tellg()/(sizeof(Node<ID>)+1)==5){
+            cout <<" SE DETUVO EN EL IF"<<endl;
+            //sleep(25);
+            //exit(22);
+        }
+        pagina.seekp(0,ios::end);
+        node.position=pagina.tellp()/(sizeof(Node<ID>)+1);
         pagina.write((char*) &node,sizeof(Node<ID>) );
         pagina<<endl;
         pagina.close();
@@ -145,6 +154,10 @@ void escribir_nodo(Node<ID> &node){
         pagina.open("nodos.txt");
         cout << "escribir_nodo():  Segundo sleep" <<endl;
      //   sleep(5);
+        if (pagina.tellp()/(sizeof(Node<ID>)+1)==5){
+            cout <<" SE DETUVO EN EL ELSE"<<endl;
+            sleep(25);
+        }
         pagina.seekp(node.position*(sizeof(Node<ID>)+1));
         cout << "escribir_nodo(): sizeof(node): " << sizeof(node) << endl;
         cout << "escribir_nodo(): sizeof(Node<ID>): " << sizeof(Node<ID>) << endl;

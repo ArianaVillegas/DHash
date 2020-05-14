@@ -149,7 +149,7 @@ class BTree {
         /* COPY */ 
         bool insert(Registro<ID> record, ID &key, Node<ID>* &nodo){
             /* Buscamos la posicion a seguir en los nodos */
-            int i;
+            int i=0;
             for (i = 0; i < nodo->size; i++)
                 if(key<nodo->keys[i]) break;
 
@@ -158,6 +158,7 @@ class BTree {
             if(!nodo->isLeaf){
                 string tnode = nodo->childs[i].to_string();
                 Node <ID> tnodo;
+                /*IMPORTANTE*/
                 cargar_nodo(tnodo, stoi(tnode));
                 Node<ID>* ptnodo = &tnodo;
                 if(insert(record, key, ptnodo)){
@@ -198,9 +199,10 @@ class BTree {
                 }else{
                     page.All_registers.push_back(record);
                     page.size++;
-                    page.sort();    /* TO DO */
+                    page.sort();
+                    page.write(); /* TO DO */
                 }
-                page.write(); /* TO DO */
+                /* TO DO */
             }
 
             if(nodo->size == GRADO){
@@ -258,6 +260,20 @@ class BTree {
         }
 
     public:
+
+        void print_tree(STRING pos_root){
+            Node<ID> root;
+            cargar_nodo(root,pos_root.STOI());
+            root.print_node();
+            if(root.isLeaf){
+                return;
+            }
+            for(int i=0;i<root.size+2;i++){
+                print_tree(root.childs[i]);
+            }
+
+        }
+
         BTree(string index_fileName) {
             fstream file;
             file.open(index_fileName, ios::in |ios::out | ios::app);
@@ -297,7 +313,6 @@ class BTree {
             cout << "\t insert registro: " << registro.codigo << endl;
 
             Node<ID> temp(false);
-            temp.print_node();
             if (pos_root==""){
                 pos_root="0";
                 Node<ID> newroot(true);
