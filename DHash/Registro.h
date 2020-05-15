@@ -34,15 +34,19 @@ struct Registro
     };
     void showData(){
         cout << "\nCodigo: ";
-        for(int i=0; i<5; i++) cout << codigo[i];
+        string cod = codigo;
+        string nomb = Nombre;
+        string ap = Apellidos;
+        string Carre = Carrera;
+        cout << cod;
         cout << "\nNombre: ";
-        for(int i=0; i<12; i++) cout << Nombre[i];
+        cout << nomb;
         cout << "\nApellidos: ";
-        for(int i=0; i<20; i++) cout << Apellidos[i];
+        cout << ap;
         cout << "\nCarrera: ";
-        for(int i=0; i<20; i++) cout << Carrera[i];
-        cout << '\n';
-    };
+        cout << Carre;
+        cout << "\n----------------\n";    
+        };
 };
 
 #endif
