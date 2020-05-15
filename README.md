@@ -1,9 +1,8 @@
 # ProyectoBD2
+## Integrantes
 
-## Detalles de implementación
-
-### Nodo: 
-- Array de keys y children con el tamaño máximo posible
-- Todos los nodos no raiz van a estar guardados en un mismo archivo "nodos.txt"
-
-### :
+| Nombre y Apellidos | codigo de alumno |
+|-|-|
+|Ariana Villegas | 201810614 |
+|Cesar Madera	| 201810188 |
+|Enrique Sobrados | 201810245 |
