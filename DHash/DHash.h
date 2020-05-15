@@ -296,8 +296,8 @@ class DHash{
                 inFile.close();
                 auto end = chrono::high_resolution_clock::now();
                 auto duration = chrono::duration_cast<chrono::microseconds>(end-start);
-                cout << "Tiempo de ejecución: " << duration.count() << "ms" << '\n';
-                cout << "Accesos a memoria: " << access << '\n';
+                //cout << "Tiempo de ejecución: " << duration.count() << "ms" << '\n';
+               // cout << "Accesos a memoria: " << access << '\n';
                 return p.registers[j];
             }
             while(p.next!=-1){
@@ -316,8 +316,8 @@ class DHash{
                     inFile.close();
                     auto end = chrono::high_resolution_clock::now();
                     auto duration = chrono::duration_cast<chrono::microseconds>(end-start);
-                    cout << "Tiempo de ejecución: " << duration.count() << "ms" << '\n';
-                    cout << "Accesos a memoria: " << access << '\n';
+                    //cout << "Tiempo de ejecución: " << duration.count() << "ms" << '\n';
+                    //cout << "Accesos a memoria: " << access << '\n';
                     return p.registers[j];
                 }
             }
@@ -326,8 +326,8 @@ class DHash{
             strcpy(r.codigo,"-1");
             auto end = chrono::high_resolution_clock::now();
             auto duration = chrono::duration_cast<chrono::microseconds>(end-start);
-            cout << "Tiempo de ejecución: " << duration.count() << "ms" << '\n';
-            cout << "Accesos a memoria: " << access << '\n';
+            //cout << "Tiempo de ejecución: " << duration.count() << "ms" << '\n';
+            //cout << "Accesos a memoria: " << access << '\n';
             return r;
         }
 
