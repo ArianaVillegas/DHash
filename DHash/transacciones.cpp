@@ -18,7 +18,7 @@ void* transacion1 ( void * aux){
     f.showData();
     strcpy(f.Nombre, "Cesar");
     fr.add(f);
-
+    
 }
 
 void* transacion2 ( void * aux){
