@@ -11,6 +11,4 @@ int main(int argc, char** argv) {
     auto f=fr.search(argv[1]);
     f.showData();
 
-
-
 }

@@ -131,5 +131,6 @@ entrada4.place(x = 380 ,y =400)
 button2 = Button(root, text = "Insertar", command=insertRegistro).place(y = 450,x= 420)
 
 
+
 root.geometry("960x540")
 root.mainloop()
