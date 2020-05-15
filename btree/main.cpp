@@ -16,7 +16,7 @@ int main(){
     strcpy(temporal.Nombre,"Cesar");
     strcpy(temporal.Carrera,"CS");
     btree.insert(temporal);
-    for (int i=0;i< 26;i++ ){
+    for (int i=0;i< 1000;i++ ){
         cout<<"--------------------------------------"<<endl;
         cout<<" SE ESTA INSERTANDO EL ELEMENTO "<< i<<endl;
         string crear_codigo="00";
