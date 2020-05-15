@@ -9,34 +9,6 @@
 #include "STRING.h"
 #include <unistd.h>
 using namespace std; 
-/*
-
-template <typename ID>
-class BTree; 
-
-template <typename ID>
-class Node {
-
-public: 
-    vector<ID> keys; //tamano = Grado-1
-    bool isLeaf;
-
-    template<class>
-    Node() = default;
-    friend class BTree; 
-};
- 
-template<typename ID> 
-class Nodo_normal: public Node<ID>{
-public:
-    vector<string> childs;
-
-    Nodo_normal( bool isLeaf ) :  isLeaf(isLeaf) {};
-    
-    template<class>
-    friend class BTree; 
-};
-*/
 
 
 

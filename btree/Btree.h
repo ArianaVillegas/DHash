@@ -105,14 +105,14 @@ class BTree {
             key = node->keys[pos];
             Node<ID>* newnode = new Node<ID>(false);
             //newnode.keys.insert(newnode.keys.begin(), node.keys.begin()+pos, node.keys.end());
-            node->insert_keys(*newnode,pos,node->size);
+            node->insert_keys(*newnode,pos+1,node->size);
             //node.keys.erase(node.keys.begin()+pos, node.keys.end());
             int size_temporal=node->size;
             node->erase_keys(pos,node->size);
 
 
                 //newnode.childs.insert(newnode.childs.begin(), node.childs.begin()+pos+1, node.childs.end());
-                node->insert_childs(*newnode,pos+1,size_temporal);
+                node->insert_childs(*newnode,pos,size_temporal);
                 //node.childs.erase(node.childs.begin()+pos+1, node.childs.end());
                 //no pongo nada porque se supone que el erase lo hace
 
