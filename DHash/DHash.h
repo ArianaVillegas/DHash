@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 #include "pagina.h"
 #include <time.h> 
-
+#include <algorithm>
 using namespace std;
 
 const int DEEP=8;
@@ -330,6 +330,48 @@ class DHash{
             //cout << "Accesos a memoria: " << access << '\n';
             return r;
         }
+
+        void printall(int mode) {
+            ifstream inFile;
+            string line; Registro r;
+            inFile.open(fileName, ios::binary);
+            vector<int> usados;
+            for (int i=0;i<(1<<DEEP);i++){
+                int apunta_a=HT[i].pos;
+                auto temp=find(usados.begin(),usados.end(),apunta_a);
+                if (temp==usados.end()){
+                    //aun no printeo esta pagina
+                    usados.push_back(apunta_a);
+                    Pagina p;
+                    inFile.seekg(apunta_a*sizeof(Pagina),ios::beg);
+                    inFile.read((char *)&p,sizeof(Pagina));
+                    for (int j=0;j<p.size();j++){
+                        p.registers[j].showData(mode);
+                    }
+                    while(p.next!=-1){
+                        Pagina p;
+                        inFile.seekg(apunta_a*sizeof(Pagina),ios::beg);
+                        inFile.read((char *)&p,sizeof(Pagina));
+                        for (int j=0;j<p.size();j++){
+                            p.registers[j].showData(mode);
+                        }
+                        
+                    }
+            
+                
+                
+                }else{
+                    continue;
+                }
+                
+            }
+        }
+
+
+
+
+            
+
 
         /*bool del(ID key){
             auto start = chrono::high_resolution_clock::now();

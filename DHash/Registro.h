@@ -33,11 +33,12 @@ struct Registro
         strncpy(Carrera, line.c_str(), 20);
     };
     void showData(){
-        cout << "\nCodigo: ";
+        
         string cod = codigo;
         string nomb = Nombre;
         string ap = Apellidos;
-        string Carre = Carrera;
+        string Carre = Carrera;                
+        cout << "\nCodigo: ";
         cout << cod;
         cout << "\nNombre: ";
         cout << nomb;
@@ -46,6 +47,55 @@ struct Registro
         cout << "\nCarrera: ";
         cout << Carre;
         cout << "\n----------------\n";    
+    }
+    void showData(int mode){
+        
+        string cod = codigo;
+        string nomb = Nombre;
+        string ap = Apellidos;
+        string Carre = Carrera;
+
+        switch (mode){
+            case 0:{
+                
+            cout << "\nCodigo: ";
+            cout << cod;
+            cout << "\nNombre: ";
+            cout << nomb;
+            cout << "\nApellidos: ";
+            cout << ap;
+            cout << "\nCarrera: ";
+            cout << Carre;
+            cout << "\n----------------\n";    
+        
+            }
+            case 1:{
+                cout << "\nCodigo: ";
+                cout << cod;
+                cout << "\n----------------\n";
+            }
+            case 2:{
+                cout << "\nNombre: ";
+                cout << nomb;
+                cout << "\n----------------\n";
+            }
+            case 3:{
+
+                cout << "\nApellidos: ";
+                cout << ap;                    
+                cout << "\n----------------\n";    
+                
+            }
+            case 5:{
+                cout << "\nCarrera: ";
+                cout << Carre;
+                cout << "\n----------------\n";    
+                
+            }
+        }
+
+
+        
         };
 };
 
