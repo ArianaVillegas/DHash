@@ -41,6 +41,7 @@ def buscar_registro():
     for line in lines:
         label = Label(busqueda, text=line.strip())
         label.pack()
+    txtBusqueda.delete(0,'end')
     busqueda.geometry("400x400")
     busqueda.mainloop()
     
@@ -61,6 +62,11 @@ def insertRegistro():
     os.system(bashcomand)
     bashcomand = "./a.out " + key.get() + " " + nombre.get() + " " + Apellido.get() + " " + Carrera.get() 
     os.system(bashcomand)
+    entrada1.delete(0,'end')
+    entrada2.delete(0,'end')
+    entrada3.delete(0,'end')
+    entrada4.delete(0,'end')
+    
 
 
 root = Tk()
@@ -82,7 +88,8 @@ label = Label(root, text="¡Bienvenidos al proyecto BD2!")
 label.config(fg="red", font=("Verdana",24))
 label.place(x = 215, y = 20) 
 registro = StringVar()
-txtBusqueda = Entry(root,textvariable = registro, width = 20).place(x=380,y=190)
+txtBusqueda = Entry(root,textvariable = registro, width = 20)
+txtBusqueda.place(x=380,y=190)
 
 
 Label(root,text = 'Cargar 1 000 datos: ').place(x=70, y = 80)
@@ -111,12 +118,18 @@ Label(root, text = 'Nombre: ').place(x=300, y = 340)
 Label(root, text = 'Apellido: ').place(x=300, y = 370)
 Label(root, text = 'Carrera: ').place(x=300, y = 400)
     
-text= Entry(root,textvariable = key,width = 20).place(x = 380 ,y =310)
-text2=Entry(root,textvariable = nombre,width = 20).place(x = 380 ,y =340)
-text3=Entry(root,textvariable = Apellido,width = 20).place(x = 380 ,y =370)
-text4=Entry(root,textvariable = Carrera,width = 20).place(x = 380 ,y =400)
+entrada1= Entry(root,textvariable = key,width = 20)
+entrada1.place(x = 380 ,y =310)
+entrada2=Entry(root,textvariable = nombre,width = 20)
+entrada2.place(x = 380 ,y =340)
+entrada3=Entry(root,textvariable = Apellido,width = 20)
+entrada3.place(x = 380 ,y =370)
+entrada4=Entry(root,textvariable = Carrera,width = 20)
+entrada4.place(x = 380 ,y =400)
+
 
 button2 = Button(root, text = "Insertar", command=insertRegistro).place(y = 450,x= 420)
+
 
 root.geometry("960x540")
 root.mainloop()
