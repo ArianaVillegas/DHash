@@ -8,7 +8,7 @@
 |Enrique Sobrados | 201810245 |
 
 
-# UI 
+## UI 
 Con respecto al sql.py en la carpeta DHash soportan los siguiente queries y de la siguiente forma:
  - Lo que está en " " es lo que el usuario deberá ingresar.
  - Nuestra tabla siempre será DHASH o como desee escribirla, sino no funciona.
