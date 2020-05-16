@@ -1,0 +1,12 @@
+
+Codigo: d123
+Nombre: cesar
+Apellidos: mader
+Carrera: cs
+----------------
+
+Codigo: A1234Enrique
+Nombre: Enrique
+Apellidos: Sobrados
+Carrera: CS
+----------------

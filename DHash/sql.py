@@ -4,40 +4,93 @@ import os, sys
 import time
 from PIL import ImageTk,Image
 
+#0 todo
+#1 codigo
+#2 nombre
+#3 apellido
+#4 carrera
+
 def parse():
     resultado = Tk()
     resultado.geometry("300x300")
+    resultado.title('Resultados')
     query = sql.get() 
     stringlist = query.split()
+    if (len(stringlist) != 4 and len(stringlist) != 8 and len(stringlist) != 7 ):
+        Label(resultado, text = "Ingresaste mal el query").pack()
+        resultado.mainloop()
+        return
     operacion = stringlist[0]
     if(operacion.lower() == "select"):
-        if ()
+        if (stringlist[1] == "*"):
+            cod = 0
+        elif (stringlist[1].lower() == "codigo"):
+            cod = 1
+        elif (stringlist[1].lower() == "nombre"):
+            cod = 2
+        elif (stringlist[1].lower() == "apellidos"):
+            cod = 3
+        elif (stringlist[1].lower() == "carrera"):
+            cod = 4
+        else: 
+            #fail
+            Label(resultado, text = "Ingresaste mal el atributo").pack()
+            resultado.mainloop()
+            return
+        if(stringlist[2].lower() != "from" or stringlist[3].lower() != "dhash"):
+            Label(resultado, text = "Ingresaste mal el atributo").pack()
+            resultado.mainloop()
+            return
+        if(len(stringlist) == 4): 
+            bashcomand = "g++ printall.cpp"
+            os.system(bashcomand)
+            final = './a.out ' + str(cod) + ' > all.txt'
+            time.sleep(2)
+            os.system(final)
+            file = open("all.txt")
+            scrollbar = Scrollbar(resultado)
+            scrollbar.pack( side = RIGHT, fill = Y )
+            mylist = Listbox(resultado, yscrollcommand = scrollbar.set )
+            lines = file.readlines()
+            for line in lines:
+                label = Label(resultado, text=line.strip())
+                label.pack()
+            
 
-
-
-
+        elif(len(stringlist) == 7 and stringlist[4].lower() == "where"): 
+            if(stringlist[5].lower() == "codigo"):
+                os.system("g++ show_register.cpp")
+                bashcomand = './a.out ' + stringlist[6]+ ' ' + str(cod) + ' > show_register.txt'
+                os.system(bashcomand)
+                file = open("show_register.txt")
+                lines = file.readlines()
+                for line in lines:
+                    label = Label(resultado, text=line.strip())
+                    label.pack()
+            else:
+                Label(resultado, text = "Ingresaste mal el atributo", font= large_font).pack()
+                resultado.mainloop()
+                return
+        else: 
+            Label(resultado, text = "Ingresaste mal el atributo", font= large_font).pack()
+            resultado.mainloop()
+            return
+    #insert into dhash values asdf asdfs asdf fasd
     elif(operacion.lower()  == "insert"):
         #into = stringlist[1]
-        if(stringlist[2].lower() != "dhash"):
-            Label(resultado,text ='Ingrese una tabla correcta!', width= 20 , height = 20 ,font = large_font).pack()
+        if(stringlist[2].lower() != "dhash" or stringlist[1].lower() != "into"or stringlist[3].lower() != "values" or len(stringlist) != 8):
+            Label(resultado,text ='Ingrese una query correcta!', width= 20 , height = 20 ,font = large_font).pack()
             resultado.mainloop()
             return 
         else:
-            if(stringlist[3] == "" or stringlist[4] == "" or stringlist[5] == "" or stringlist[6] == ""):
-                Label(resultado,text ='Ingrese un registro correcto!!', width= 20 , height = 20 ,font = large_font).pack()
-                resultado.mainloop()
-                return 
             bashcomand = "g++ insert_register.cpp"
             os.system(bashcomand)
-            bashcomand = "./a.out " + stringlist[3] + " " + stringlist[4] + " " + stringlist[5] + " " + stringlist[6] 
+            bashcomand = "./a.out " + stringlist[4] + " " + stringlist[5] + " " + stringlist[6] + " " + stringlist[7] 
             os.system(bashcomand)
             Label(resultado,text ='Insertado correctamete!', width= 20 , height = 20 ,font = large_font).pack()
             resultado.mainloop()
             return 
-#devuelve todas los registros de la tabla 
-#como hacemos cuando el select es *         
-#que el table name sea DHASH siempre
-#tenemos que soportar este tipo de busqueda select * from tabla where ID = ASDGB
+
 root = Tk()
 root.title("Base de datos 2 Proyecto")
 large_font = ('Verdana',30)

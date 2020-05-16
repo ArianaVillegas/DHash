@@ -345,14 +345,14 @@ class DHash{
                     Pagina p;
                     inFile.seekg(apunta_a*sizeof(Pagina),ios::beg);
                     inFile.read((char *)&p,sizeof(Pagina));
-                    for (int j=0;j<p.size();j++){
+                    for (int j=0;j<p.size;j++){
                         p.registers[j].showData(mode);
                     }
                     while(p.next!=-1){
                         Pagina p;
                         inFile.seekg(apunta_a*sizeof(Pagina),ios::beg);
                         inFile.read((char *)&p,sizeof(Pagina));
-                        for (int j=0;j<p.size();j++){
+                        for (int j=0;j<p.size;j++){
                             p.registers[j].showData(mode);
                         }
                         

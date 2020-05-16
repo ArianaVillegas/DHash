@@ -66,31 +66,37 @@ struct Registro
             cout << ap;
             cout << "\nCarrera: ";
             cout << Carre;
-            cout << "\n----------------\n";    
-        
+            cout << "\n----------------\n"; 
+            return;   
+            break;
             }
             case 1:{
                 cout << "\nCodigo: ";
                 cout << cod;
                 cout << "\n----------------\n";
+             
+                break;
             }
             case 2:{
                 cout << "\nNombre: ";
                 cout << nomb;
                 cout << "\n----------------\n";
+              
+                break;
             }
             case 3:{
 
                 cout << "\nApellidos: ";
                 cout << ap;                    
                 cout << "\n----------------\n";    
-                
+        
+                break;
             }
-            case 5:{
+            case 4:{
                 cout << "\nCarrera: ";
                 cout << Carre;
                 cout << "\n----------------\n";    
-                
+                break;
             }
         }
 
