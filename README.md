@@ -1,4 +1,4 @@
-# ProyectoBD2
+# DHash
 ## Integrantes
 
 | Nombre y Apellidos | codigo de alumno |
